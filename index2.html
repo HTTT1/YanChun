@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彥淳小寶 2025 回顧選單</title>
+    <style>
+        /* --- 奶油風配色設定 (維持不變) --- */
+        :root {
+            --bg-color: #FDFBF7;       /* 奶油白背景 */
+            --card-bg: #FFFFFF;        /* 純白卡片 */
+            --primary-color: #D4C4B7;  /* 拿鐵色裝飾 */
+            --accent-color: #E6B496;   /* 溫暖的杏桃色 */
+            --text-color: #5D4D44;     /* 深棕色文字 */
+            --btn-hover: #D9A588;
+            --btn-text: #FFFFFF;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            font-family: 'Nunito', 'Microsoft JhengHei', sans-serif;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 背景裝飾點點 */
+        .bg-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: radial-gradient(#E8Ddd5 2px, transparent 2px);
+            background-size: 30px 30px;
+            opacity: 0.5;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #8D7B72;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        /* 圖片容器 */
+        .mascot-container {
+            position: relative;
+            height: 200px; /* 稍微縮小一點高度讓給按鈕 */
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .mascot-img {
+            width: 160px; 
+            height: auto;
+            object-fit: contain;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- 新增：按鈕群組區塊 --- */
+        .menu-buttons {
+            display: flex;
+            flex-direction: column; /* 垂直排列 */
+            gap: 15px;              /* 按鈕之間的間距 */
+            width: 100%;
+            align-items: center;
+        }
+
+        .menu-btn {
+            background-color: var(--accent-color);
+            color: var(--btn-text);
+            border: none;
+            padding: 15px 0;      /* 上下留白，左右由 width 控制 */
+            width: 80%;           /* 按鈕寬度佔容器的 80% */
+            max-width: 280px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(230, 180, 150, 0.4);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-decoration: none; /* 去除超連結底線 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-btn:hover {
+            background-color: var(--btn-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(230, 180, 150, 0.6);
+        }
+
+        /* 第二個按鈕可以換個顏色區隔 (選用) */
+        /* 如果想要一樣顏色，這段可以刪除 */
+        .menu-btn.secondary {
+            background-color: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(212, 196, 183, 0.4);
+        }
+        .menu-btn.secondary:hover {
+            background-color: #C5B3A4;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-decoration"></div>
+
+    <div class="container">
+        <h1>彥淳小寶<br>2025 回顧選單</h1>
+        <div class="subtitle">請選擇要進行的測驗</div>
+
+        <div class="mascot-container">
+            <img src="image_9070cb.jpg" alt="Pointing Character" class="mascot-img">
+        </div>
+
+        <div class="menu-buttons">
+            <a href="quiz.html" class="menu-btn">
+                <span>Part 1. 基礎回顧</span>
+            </a>
+
+            <a href="quiz1.html" class="menu-btn secondary">
+                <span>Part 2. 進階挑戰</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

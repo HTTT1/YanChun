@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>彥淳小寶2025回顧｜10 題回顧測驗</title>
+  <style>
+
+  :root{
+    --bg:#FFF7EC;
+    --card:#ffffff;
+    --text:#3A2E2A;
+    --muted:#7B6B63;
+    --accent:#C58B5C;
+    --accent2:#E8C7A8;
+    --good:#2E7D32;
+    --bad:#C62828;
+    --line:rgba(58,46,42,.12);
+    --shadow: 0 18px 45px rgba(58,46,42,.10);
+    --radius: 26px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "PingFang TC","Noto Sans TC","Microsoft JhengHei", Arial, sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(1000px 700px at 15% 10%, rgba(232,199,168,.55), transparent 60%),
+      radial-gradient(900px 600px at 90% 30%, rgba(197,139,92,.18), transparent 60%),
+      linear-gradient(180deg, #FFF7EC, #FFF3E4 65%, #FFF7EC);
+    padding:18px 12px 32px;
+  }
+
+  .app{max-width:860px;margin:0 auto;}
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin:4px 0 14px;
+    flex-wrap:wrap;
+  }
+  .back{
+    color:var(--text);
+    text-decoration:none;
+    font-weight:900;
+    padding:10px 14px;
+    border-radius:999px;
+    background: rgba(255,255,255,.65);
+    border:1px solid rgba(58,46,42,.12);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    backdrop-filter: blur(8px);
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    margin-left:auto;
+    padding:8px 10px;
+    border-radius:999px;
+    background: rgba(255,255,255,.72);
+    border:1px solid rgba(58,46,42,.12);
+    backdrop-filter: blur(8px);
+  }
+  .avatar{
+    width:34px;height:34px;border-radius:999px;object-fit:cover;
+    border:2px solid rgba(197,139,92,.35);
+    box-shadow: 0 10px 25px rgba(58,46,42,.10);
+    background:#fff;
+  }
+  .brand .t1{font-weight:900}
+  .brand .t2{font-size:12px;color:var(--muted);margin-top:2px}
+
+  .card{
+    background:var(--card);
+    border:1px solid rgba(58,46,42,.10);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+
+  .topbar{
+    padding:16px 16px 12px;
+    border-bottom:1px solid var(--line);
+  }
+  .stats{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .bar{
+    flex:1 1 260px;
+    height:10px;
+    border-radius:999px;
+    background: rgba(232,199,168,.35);
+    overflow:hidden;
+  }
+  .bar > i{
+    display:block;
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg, rgba(197,139,92,.85), rgba(232,199,168,.95));
+    border-radius:999px;
+    transition:width .25s ease;
+  }
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 12px;
+    border-radius:999px;
+    background: rgba(255,255,255,.70);
+    border:1px solid rgba(58,46,42,.12);
+    font-weight:900;
+    white-space:nowrap;
+  }
+  .pill small{font-weight:800;color:var(--muted)}
+  .pill .ok{color:var(--good)}
+  .pill .ng{color:var(--bad)}
+  .pill.ok{color:var(--good)}
+  .pill.ng{color:var(--bad)}
+
+  .main{padding:16px}
+  .qno{color:var(--muted);font-weight:900;font-size:12px;letter-spacing:.4px}
+  .qtitle{margin:8px 0 10px;font-size:20px;line-height:1.35}
+  .qdesc{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.55}
+
+  .opts{display:grid;gap:12px;margin-top:10px}
+  .opt{
+    width:100%;
+    text-align:left;
+    padding:14px 14px;
+    border-radius:18px;
+    border:1px solid rgba(58,46,42,.14);
+    background: linear-gradient(180deg,#FFFFFF,#FFF9F0);
+    cursor:pointer;
+    font-weight:900;
+    letter-spacing:.2px;
+    transition: transform .08s ease, border-color .12s ease, box-shadow .12s ease, background .12s ease;
+    box-shadow: 0 10px 24px rgba(58,46,42,.06);
+  }
+  .opt:active{transform:scale(.99)}
+  .opt:hover{border-color: rgba(197,139,92,.45)}
+  .opt.correct{
+    border-color: rgba(46,125,50,.35);
+    background: linear-gradient(180deg, rgba(46,125,50,.10), rgba(255,249,240,1));
+  }
+  .opt.wrong{
+    border-color: rgba(198,40,40,.32);
+    background: linear-gradient(180deg, rgba(198,40,40,.10), rgba(255,249,240,1));
+  }
+  .opt:disabled{opacity:.78;cursor:default}
+
+  .explain{
+    margin-top:12px;
+    padding:12px 12px;
+    border-radius:16px;
+    border:1px dashed rgba(197,139,92,.35);
+    background: rgba(232,199,168,.18);
+    color: rgba(58,46,42,.92);
+    line-height:1.55;
+    display:none;
+  }
+  .explain.show{display:block}
+
+  .bottom{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    padding:14px 16px 16px;
+    border-top:1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,.0), rgba(255,255,255,.65));
+    flex-wrap:wrap;
+  }
+  .btn{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    padding:12px 14px;
+    border-radius:999px;
+    font-weight:900;
+    letter-spacing:.3px;
+    background: linear-gradient(180deg, #FFFDF8, #FFF2E2);
+    border:1px solid rgba(197,139,92,.55);
+    color:var(--text);
+    box-shadow: 0 14px 28px rgba(58,46,42,.10);
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn.secondary{
+    background: rgba(255,255,255,.70);
+    border:1px solid rgba(58,46,42,.12);
+    box-shadow:none;
+  }
+
+  /* 結果卡片 */
+  .result{
+    padding:18px 16px;
+  }
+  .result h2{margin:0 0 6px;font-size:22px}
+  .result p{margin:0 0 12px;color:var(--muted);line-height:1.6}
+  .result .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+
+  /* 動作區、提示 */
+  .actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
+  }
+  .toast{
+    position:fixed;
+    left:50%;
+    bottom:18px;
+    transform:translateX(-50%);
+    padding:10px 14px;
+    border-radius:999px;
+    border:1px solid rgba(58,46,42,.12);
+    background: rgba(255,255,255,.90);
+    box-shadow: 0 18px 45px rgba(58,46,42,.12);
+    font-weight:900;
+    letter-spacing:.3px;
+    display:none;
+    z-index:50;
+    backdrop-filter: blur(10px);
+  }
+  .toast.good{border-color: rgba(46,125,50,.25)}
+  .toast.bad{border-color: rgba(198,40,40,.22)}
+  .big{display:flex;justify-content:center;}
+  .bigAvatar{
+    width:90px;height:90px;border-radius:999px;
+    object-fit:cover;
+    border:3px solid rgba(197,139,92,.35);
+    box-shadow: 0 18px 45px rgba(58,46,42,.12);
+    background:#fff;
+  }
+
+</style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <a class="back" href="./index.html">← 返回</a>
+      <div class="brand" aria-label="brand">
+        <img class="avatar" src="./assets/baby_avatar.png" alt="彥淳小寶" />
+        <div>
+          <div class="t1">彥淳小寶2025回顧</div>
+          <div class="t2">10 題小測驗</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="card" aria-label="progress-and-quiz">
+      <div class="topbar">
+        <div class="stats">
+          <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+          <div class="pill"><small>進度</small><span id="ptext">0/10</span></div>
+          <div class="pill"><small>分數</small><span id="scoreChip">0</span></div>
+          <div class="pill ok"><span id="rightChip">✔ 0</span></div>
+          <div class="pill ng"><span id="wrongChip">✘ 0</span></div>
+        </div>
+      </div>
+
+      <div class="main" id="quizCard" aria-label="quiz">
+        <div class="qno" id="qno">題目 1</div>
+        <h2 class="qtitle" id="qtitle">載入中…</h2>
+        <div class="opts" id="opts"></div>
+        <div class="explain" id="explain"></div>
+      </div>
+
+      <div class="result" id="resultCard" aria-label="result" style="display:none">
+        <h2 id="rTitle">測驗完成</h2>
+        <p id="rSummary">—</p>
+        <div class="row">
+          <button class="btn secondary" id="restartBtn">再玩一次</button>
+          <a class="btn" href="./index.html">回封面</a>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <button class="btn secondary" id="prevBtn">上一題</button>
+        <button class="btn" id="nextBtn">下一題 →</button>
+      </div>
+    </section>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    // 你要改題目：只改這份資料就好
+    const QUESTIONS = [
+      {
+        q: "最後一題：這份聊天記錄最大的特色是？",
+        options: [
+          "大家都很嚴肅、只談公事",
+          "照片/貼圖/影片超多，文字常常很短",
+          "每天都在討論股票",
+          "全部都在吵架"
+        ],
+        a: 1,
+        exp: "從記錄裡可以看到大量 [照片] / [影片] / [貼圖]，對話也常是短句＋吐槽。"
+      },
+      {
+        q: "群組裡最常出現、被大家圍繞的主角是誰？",
+        options: ["小寶", "公司主管", "貓貓戰隊", "海底撈"],
+        a: 0,
+        exp: "整份對話幾乎都在分享小寶的照片、影片與日常。"
+      },
+      {
+        q: "看到『我切一下導航』這種句子，最像是在做什麼？",
+        options: ["在寫論文", "在出門移動/開車途中", "在打遊戲排位", "在做飯備料"],
+        a: 1,
+        exp: "聊天裡常出現出門、搭車、路上、導航等情境。"
+      },
+      {
+        q: "以下哪個比較像群組常用的語氣？",
+        options: ["敬啟者：請查照。", "欸笑死／口愛鼠", "尊敬的客服您好", "本研究之目的在於…"],
+        a: 1,
+        exp: "口語＋玩笑＋可愛系吐槽是主要風格。"
+      },
+      {
+        q: "『嗡呆』在對話中更像是什麼用法？",
+        options: ["一種甜點", "一個綽號/暱稱", "一款相機型號", "一間餐廳名字"],
+        a: 1,
+        exp: "對話中會用『嗡呆回覆』『嗡呆時尚』等語句，明顯是暱稱。"
+      },
+      {
+        q: "群組裡有一段提到『投票/上傳照片/填資料』，看起來是在做什麼？",
+        options: ["參加寶寶比賽或票選活動", "申請研究計畫補助", "找租屋合約", "報名馬拉松"],
+        a: 0,
+        exp: "提到『只能選一張』『拉票』『要註冊會員』等，非常像票選活動。"
+      },
+      {
+        q: "『照片全打槍』『角度不好看』這種對話通常在討論什麼？",
+        options: ["拍照取景與呈現", "銀行利率", "保險條款", "法律訴訟"],
+        a: 0,
+        exp: "常常在選最可愛的一張、吐槽角度、清不清楚。"
+      },
+      {
+        q: "哪一種訊息格式在記錄中很常出現？",
+        options: ["[照片] / [影片] / [貼圖]", "長篇論述（2000字）", "程式碼區塊", "會議紀要表格"],
+        a: 0,
+        exp: "格式標記非常多，屬於以影像與貼圖為主的群組。"
+      },
+      {
+        q: "看到『小寶回報 over』這句，最像是在玩什麼梗？",
+        options: ["軍事/無線電通訊口吻", "古文背誦", "財報用語", "法律文書"],
+        a: 0,
+        exp: "用『回報』『over』很像對講機或無線電的語氣。"
+      },
+      {
+        q: "這個群組最常出現的情緒氛圍是？",
+        options: ["冷淡疏離", "輕鬆搞笑＋狂誇可愛", "高度緊張", "嚴肅批判"],
+        a: 1,
+        exp: "從『口愛翻掉』『笑死』到各種貼圖互動，整體非常歡樂。"
+      }
+    ];
+
+    let idx = 0;
+    let locked = false;
+    let score = 0;
+    let right = 0;
+    let wrong = 0;
+    const answered = new Array(QUESTIONS.length).fill(null); // {choice, correct}
+
+    const el = (id)=>document.getElementById(id);
+    const qno = el("qno");
+    const qtitle = el("qtitle");
+    const opts = el("opts");
+    const explain = el("explain");
+    const bar = el("bar");
+    const ptext = el("ptext");
+    const scoreChip = el("scoreChip");
+    const rightChip = el("rightChip");
+    const wrongChip = el("wrongChip");
+    const toast = el("toast");
+
+    const quizCard = el("quizCard");
+    const resultCard = el("resultCard");
+    const rTitle = el("rTitle");
+    const rSummary = el("rSummary");
+
+    function showToast(text, good){
+      toast.textContent = text;
+      toast.className = "toast " + (good ? "good" : "bad");
+      toast.style.display = "block";
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=> toast.style.display="none", 900);
+    }
+
+    function updateHeader(){
+      scoreChip.textContent = "分數：" + score;
+      rightChip.textContent = "✔ " + right;
+      wrongChip.textContent = "✘ " + wrong;
+      ptext.textContent = (idx+1) + "/" + QUESTIONS.length;
+      bar.style.width = ((idx)/QUESTIONS.length*100).toFixed(1) + "%";
+    }
+
+    function render(){
+      // 如果已完成
+      const done = answered.every(v => v !== null);
+      if(done){
+        quizCard.style.display = "none";
+        resultCard.style.display = "block";
+        bar.style.width = "100%";
+        ptext.textContent = QUESTIONS.length + "/" + QUESTIONS.length;
+
+        const pct = Math.round((right/QUESTIONS.length)*100);
+        rTitle.textContent = "測驗完成｜" + pct + "%";
+        const rank =
+          (pct>=90) ? "惡魔核心覺醒" :
+          (pct>=70) ? "屏技資深惡魔" :
+          (pct>=50) ? "屏技見習惡魔" : "需要再回顧一次";
+        rSummary.textContent = `答對 ${right} 題、答錯 ${wrong} 題，總分 ${score}。稱號：${rank}`;
+        return;
+      }
+
+      resultCard.style.display = "none";
+      quizCard.style.display = "block";
+
+      const item = QUESTIONS[idx];
+      locked = false;
+
+      qno.textContent = "題目 " + (idx+1);
+      qtitle.textContent = item.q;
+
+      opts.innerHTML = "";
+      explain.style.display = "none";
+      explain.textContent = "";
+
+      item.options.forEach((t, i)=>{
+        const b = document.createElement("button");
+        b.className = "opt";
+        b.textContent = String.fromCharCode(65+i) + ". " + t;
+        b.onclick = ()=>choose(i);
+        opts.appendChild(b);
+      });
+
+      // 若此題已答過：顯示結果並鎖定
+      if(answered[idx] !== null){
+        const {choice} = answered[idx];
+        applyResult(choice, false); // 不重新加分
+      }
+
+      updateHeader();
+    }
+
+    function applyResult(choice, doScore){
+      const item = QUESTIONS[idx];
+      const children = [...opts.querySelectorAll("button.opt")];
+      children.forEach(btn=>btn.disabled = true);
+
+      const correctIdx = item.a;
+      children[correctIdx].classList.add("correct");
+      if(choice !== correctIdx) children[choice].classList.add("wrong");
+
+      const isCorrect = (choice === correctIdx);
+
+      if(doScore){
+        if(isCorrect){ score += 10; right += 1; showToast("✔ +10", true); }
+        else{ score -= 10; wrong += 1; showToast("✘ -10", false); }
+      }
+
+      explain.style.display = "block";
+      explain.textContent = item.exp;
+
+      answered[idx] = { choice, correct: isCorrect };
+      locked = true;
+      updateHeader();
+    }
+
+    function choose(choice){
+      if(locked) return;
+      applyResult(choice, true);
+    }
+
+    el("nextBtn").onclick = ()=>{
+      idx = Math.min(idx+1, QUESTIONS.length-1);
+      render();
+    };
+    el("prevBtn").onclick = ()=>{
+      idx = Math.max(idx-1, 0);
+      render();
+    };
+
+    el("restartBtn").onclick = ()=>{
+      idx = 0; score = 0; right = 0; wrong = 0; locked = false;
+      for(let i=0;i<answered.length;i++) answered[i]=null;
+      render();
+    };
+
+    // 開始
+    render();
+  </script>
+</body>
+</html>

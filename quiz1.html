@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回顧測驗中...</title>
+    <style>
+        :root {
+            --bg-color: #FDFBF7;
+            --card-bg: #FFFFFF;
+            --primary-color: #D4C4B7;
+            --accent-color: #E6B496;
+            --text-color: #5D4D44;
+            --correct-color: #A3C9A8; /* 柔和綠 */
+            --wrong-color: #E8A0A0;   /* 柔和紅 */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Nunito', 'Microsoft JhengHei', sans-serif;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .quiz-container {
+            background-color: var(--card-bg);
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(212, 196, 183, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #F0E6DD;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 10%; /* 初始寬度 */
+            transition: width 0.3s ease;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background-color: #F8F4F0;
+            border: 2px solid #F0E6DD;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .option-btn:hover {
+            background-color: #FFF;
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* 答對或答錯的樣式 */
+        .option-btn.correct {
+            background-color: var(--correct-color);
+            border-color: var(--correct-color);
+            color: white;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-color);
+            border-color: var(--wrong-color);
+            color: white;
+        }
+
+        /* 結果頁面樣式 */
+        .result-box {
+            display: none;
+        }
+        
+        .score-text {
+            font-size: 3rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            margin-top: 20px;
+            background-color: var(--text-color);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="quizBox">
+            <div class="question-text" id="questionText">題目載入中...</div>
+            <div class="options-grid" id="optionsGrid">
+                </div>
+        </div>
+
+        <div class="result-box" id="resultBox">
+            <h2>測驗結束！</h2>
+            <p>你對彥淳小寶的了解程度：</p>
+            <div class="score-text" id="finalScore">0</div>
+            <p id="comment">評語載入中...</p>
+            <a href="index.html" class="restart-btn">再玩一次</a>
+        </div>
+
+    </div>
+
+    <script>
+        // 題目資料庫 (根據聊天記錄生成)
+        const questions = [
+            {
+                q: "請問這個後援會的完整名稱是什麼？",
+                options: ["彥淳寶寶粉絲團", "彥淳小寶後援會", "小寶可愛俱樂部", "彥淳親衛隊"],
+                answer: 1 // 索引值，從0開始
+            },
+            {
+                q: "波寶寶曾開玩笑說要騎什麼飛進去幫買飲料？",
+                options: ["騎掃把", "騎恐龍", "騎小鳥", "騎毛蛋"],
+                answer: 2
+            },
+            {
+                q: "黃點點一直在問IG改版後的哪個功能怎麼用？",
+                options: ["四格照", "限時動態", "濾鏡", "打卡功能"],
+                answer: 0
+            },
+            {
+                q: "在這個群組裡，誰的暱稱被叫作「毛蛋」？",
+                options: ["波寶寶", "陳泓廷", "彥淳", "黃點點"],
+                answer: 3
+            },
+            {
+                q: "2025/1/5 傳的影片中，小寶在做什麼運動輸了？",
+                options: ["賽跑", "拔河", "相撲", "游泳"],
+                answer: 1
+            },
+            {
+                q: "關於小寶的拖鞋，波寶寶說了什麼評語？",
+                options: ["太小雙", "太滑了", "顏色太醜", "穿反了"],
+                answer: 0
+            },
+            {
+                q: "大家討論到「退貨沒在囉嗦」導致一堆奧客的是哪間店？",
+                options: ["全聯", "好市多 (Costco)", "IKEA", "家樂福"],
+                answer: 1
+            },
+            {
+                q: "誰最後自嘲說「阿姨也去當奧客了」？",
+                options: ["波寶寶", "黃點點", "陳泓廷", "路人"],
+                answer: 0
+            },
+            {
+                q: "波寶寶叫大家快點教誰怎麼用手機？",
+                options: ["小孩", "老人", "毛蛋", "阿伯"],
+                answer: 1
+            },
+            {
+                q: "波寶寶在群組回應黃點點粉絲會擴大時，說了什麼口號？",
+                options: ["蛋蛋牛牛", "耶耶彥淳", "寶寶萬歲", "小寶第一"],
+                answer: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questionText = document.getElementById('questionText');
+        const optionsGrid = document.getElementById('optionsGrid');
+        const progressFill = document.getElementById('progressFill');
+        const quizBox = document.getElementById('quizBox');
+        const resultBox = document.getElementById('resultBox');
+        const finalScore = document.getElementById('finalScore');
+        const comment = document.getElementById('comment');
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            questionText.textContent = `${currentQuestion + 1}. ${q.q}`;
+            optionsGrid.innerHTML = '';
+
+            // 更新進度條
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressFill.style.width = `${progress}%`;
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(index, q.answer, btn);
+                optionsGrid.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex, correctIndex, btnElement) {
+            // 鎖定所有按鈕防止重複點擊
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                btnElement.classList.add('correct');
+                score += 10;
+            } else {
+                btnElement.classList.add('wrong');
+                // 顯示正確答案
+                allBtns[correctIndex].classList.add('correct');
+            }
+
+            // 延遲跳轉下一題
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1000);
+        }
+
+        function showResult() {
+            quizBox.style.display = 'none';
+            document.getElementById('progressBar').style.display = 'none';
+            resultBox.style.display = 'block';
+            
+            // 數字跑動動畫
+            let tempScore = 0;
+            const timer = setInterval(() => {
+                if (tempScore >= score) {
+                    clearInterval(timer);
+                    finalScore.textContent = score;
+                } else {
+                    tempScore++;
+                    finalScore.textContent = tempScore;
+                }
+            }, 20);
+
+            // 評語邏輯
+            if (score === 100) {
+                comment.textContent = "太神啦！你是彥淳小寶的頭號鐵粉！👑";
+            } else if (score >= 80) {
+                comment.textContent = "很厲害喔！對小寶聊若指掌！💖";
+            } else if (score >= 60) {
+                comment.textContent = "還不錯，但可能要多爬文複習一下喔！📚";
+            } else {
+                comment.textContent = "罰你去把聊天記錄重看十遍！😤";
+            }
+        }
+
+        // 初始化
+        loadQuestion();
+
+    </script>
+</body>
+</html>
